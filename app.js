@@ -10,11 +10,22 @@ const app = express();
 
 
 // Database connection
+//  const db = mysql.createConnection({
+// host: 'localhost',
+// user: 'root',
+// password: 'RP738964$',
+// database: 'C237_usersdb'
+// });
+
+// [C237-030] Database connection to Azure MySQL Database
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'RP738964$',
-    database: 'C237_usersdb'
+    host: 'c237-annie-mysql.mysql.database.azure.com',
+    user: 'c237_030',
+    password: 'c237030@2026!',
+    database: 'c237_030_regapp_ca2team4',
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 db.connect((err) => {
@@ -95,10 +106,10 @@ const validateRegistration = (req, res, next) => {
 //******** TODO: Integrate validateRegistration into the register route. ********//
 app.post('/register', (req, res) => {
     //******** TODO: Update register route to include role. ********//
-    const { username, email, password, address, contact,role } = req.body;
+    const { username, email, password, address, contact, role } = req.body;
 
     const sql = 'INSERT INTO users (username, email, password, address, contact, role) VALUES (?, ?, SHA1(?), ?, ?, ?)';
-    db.query(sql, [username, email, password, address, contact,role], (err, result) => {
+    db.query(sql, [username, email, password, address, contact, role], (err, result) => {
         if (err) {
             throw err;
         }
